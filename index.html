@@ -1,0 +1,3111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Hour Beginner's Frontend Bootcamp: HTML + CSS + JavaScript (with Live Playground)</title>
+    <style>
+        /* ============================================================
+           GLOBAL RESET & BASE STYLES
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #8b5cf6;
+            --secondary-light: #ede9fe;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --dark: #0f172a;
+            --gray-700: #334155;
+            --gray-600: #475569;
+            --gray-500: #64748b;
+            --gray-400: #94a3b8;
+            --gray-300: #cbd5e1;
+            --gray-200: #e2e8f0;
+            --gray-100: #f1f5f9;
+            --gray-50: #f8fafc;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+            --font-mono: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: var(--gray-100);
+            color: var(--dark);
+            line-height: 1.75;
+            padding: 2rem 1rem;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* ============================================================
+           PROGRESS BAR
+           ============================================================ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gray-200);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        /* ============================================================
+           CARDS
+           ============================================================ */
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            scroll-margin-top: 2rem;
+        }
+
+        .card.highlight {
+            border-left: 8px solid var(--primary);
+            background: linear-gradient(to right, var(--gray-50), white);
+        }
+
+        .card.welcome {
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+            border: 2px solid var(--primary-light);
+        }
+
+        /* ============================================================
+           TYPOGRAPHY
+           ============================================================ */
+        h1 {
+            font-size: 2.6rem;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            color: var(--dark);
+            border-left: 7px solid var(--primary);
+            padding-left: 1.2rem;
+            margin: 2rem 0 1.2rem 0;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--gray-700);
+            margin: 1.8rem 0 0.9rem 0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        h4 {
+            font-size: 1.15rem;
+            color: var(--gray-700);
+            margin: 1.2rem 0 0.6rem 0;
+            font-weight: 600;
+        }
+
+        .subhead {
+            color: var(--gray-500);
+            font-size: 1.15rem;
+            margin-bottom: 1.8rem;
+            max-width: 900px;
+            line-height: 1.7;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-700);
+        }
+
+        .lead {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            line-height: 1.8;
+        }
+
+        /* ============================================================
+           CODE STYLES
+           ============================================================ */
+        code {
+            background: #eef2f6;
+            padding: 0.2rem 0.55rem;
+            border-radius: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.88em;
+            color: var(--dark);
+            border: 1px solid #d1d9e6;
+            white-space: nowrap;
+        }
+
+        pre {
+            background: #0b1120;
+            color: #e2e8f0;
+            padding: 1.2rem 1.5rem;
+            border-radius: var(--radius);
+            overflow-x: auto;
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+            margin: 0.8rem 0 1.2rem 0;
+            box-shadow: inset 0 0 0 1px #1e293b;
+            line-height: 1.7;
+            tab-size: 2;
+        }
+
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: inherit;
+            font-size: inherit;
+            white-space: pre;
+        }
+
+        /* ============================================================
+           ALERT BOXES
+           ============================================================ */
+        .note {
+            background: #f0f9ff;
+            border-left: 6px solid #0ea5e9;
+            padding: 1.2rem 1.5rem;
+            border-radius: 0.9rem;
+            margin: 1.2rem 0;
+        }
+
+        .note::before {
+            content: '💡 ';
+            font-size: 1.2rem;
+        }
+
+        .warning {
+            background: var(--warning-light);
+            border-left: 6px solid var(--warning);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0.9rem;
+            margin: 1.2rem 0;
+        }
+
+        .warning::before {
+            content: '⚠️ ';
+            font-size: 1.2rem;
+        }
+
+        .success {
+            background: var(--success-light);
+            border-left: 6px solid var(--success);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0.9rem;
+            margin: 1.2rem 0;
+        }
+
+        .success::before {
+            content: '✅ ';
+            font-size: 1.2rem;
+        }
+
+        .danger {
+            background: var(--danger-light);
+            border-left: 6px solid var(--danger);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0.9rem;
+            margin: 1.2rem 0;
+        }
+
+        .danger::before {
+            content: '🚫 ';
+            font-size: 1.2rem;
+        }
+
+        .info {
+            background: var(--primary-light);
+            border-left: 6px solid var(--primary);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0.9rem;
+            margin: 1.2rem 0;
+        }
+
+        .info::before {
+            content: 'ℹ️ ';
+            font-size: 1.2rem;
+        }
+
+        /* ============================================================
+           EXERCISE BOXES
+           ============================================================ */
+        .exercise {
+            background: #fefce8;
+            border-left: 6px solid #eab308;
+            padding: 1.5rem 1.8rem;
+            border-radius: 0.9rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise h4 {
+            font-size: 1.15rem;
+            color: #854d0e;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .difficulty {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.7rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .diff-easy {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .diff-medium {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .diff-hard {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ============================================================
+           TABLES
+           ============================================================ */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            font-size: 0.92rem;
+        }
+
+        .styled-table thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 0.9rem 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background: var(--gray-50);
+        }
+
+        .styled-table tbody tr:hover {
+            background: #eff6ff;
+        }
+
+        /* ============================================================
+           LISTS
+           ============================================================ */
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding: 0.6rem 0 0.6rem 2rem;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>') left center no-repeat;
+            background-size: 1.2rem;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        ul.styled-list, ol.styled-list {
+            padding-left: 1.5rem;
+            margin: 0.8rem 0;
+        }
+
+        ul.styled-list li, ol.styled-list li {
+            margin-bottom: 0.5rem;
+            color: var(--gray-700);
+        }
+
+        /* ============================================================
+           TIMELINE
+           ============================================================ */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.45rem;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.8rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.65rem;
+            top: 0.4rem;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-time {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--dark);
+            margin: 0.2rem 0 0.3rem 0;
+        }
+
+        /* ============================================================
+           BADGES
+           ============================================================ */
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.2rem;
+        }
+
+        .badge.green {
+            background: var(--success);
+        }
+
+        .badge.purple {
+            background: var(--secondary);
+        }
+
+        .badge.amber {
+            background: var(--warning);
+        }
+
+        .badge.red {
+            background: var(--danger);
+        }
+
+        .inline-demo {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1rem 0;
+        }
+
+        .nav-links a {
+            background: #eef2ff;
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #dbeafe;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================================================
+           DEMO BOXES
+           ============================================================ */
+        .demo-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            border: 2px dashed var(--gray-300);
+        }
+
+        .box {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .box.rounded {
+            border-radius: 50%;
+            background: var(--secondary);
+        }
+
+        .box.shadow {
+            box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.4);
+            background: #a855f7;
+        }
+
+        .box.gradient {
+            background: linear-gradient(135deg, #ec4899, #f97316);
+        }
+
+        .box.bordered {
+            border: 4px solid var(--dark);
+            background: #fbbf24;
+            color: var(--dark);
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.6rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn.secondary {
+            background: var(--gray-100);
+            color: var(--dark);
+            box-shadow: none;
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn.secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .btn.success {
+            background: var(--success);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn.success:hover {
+            background: #059669;
+        }
+
+        .btn.danger {
+            background: var(--danger);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+
+        .btn.danger:hover {
+            background: #dc2626;
+        }
+
+        .btn.small {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================================
+           FORM STYLES
+           ============================================================ */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-group input.success,
+        .form-group textarea.success {
+            border-color: var(--success);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .hint {
+            color: var(--gray-500);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .char-counter {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            text-align: right;
+            margin-top: 0.2rem;
+        }
+
+        .char-counter.warn {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .char-counter.danger {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           PLAYGROUND
+           ============================================================ */
+        .playground {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .editor-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+        }
+
+        .editor-label i {
+            font-style: normal;
+            background: var(--primary-light);
+            padding: 0.15rem 0.7rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            color: #1e40af;
+            font-weight: 700;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            background: #0b1120;
+            color: #e2e8f0;
+            border: 2px solid #1e293b;
+            border-radius: var(--radius);
+            resize: vertical;
+            line-height: 1.6;
+            tab-size: 2;
+        }
+
+        textarea:focus {
+            outline: 2px solid var(--primary);
+            border-color: var(--primary);
+        }
+
+        .iframe-wrapper {
+            background: #ffffff;
+            border-radius: var(--radius);
+            border: 2px dashed var(--gray-300);
+            padding: 1rem;
+            min-height: 300px;
+            overflow: auto;
+        }
+
+        iframe {
+            width: 100%;
+            min-height: 280px;
+            border: none;
+            background: white;
+            border-radius: 0.5rem;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        /* ============================================================
+           GRID LAYOUTS
+           ============================================================ */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .two-col,
+            .three-col {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.9rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ============================================================
+           MISC
+           ============================================================ */
+        hr {
+            border: 0;
+            border-top: 2px dashed #d1d9e6;
+            margin: 2rem 0;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .mt-2 {
+            margin-top: 1.5rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 1.8rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            font-weight: 600;
+            transform: translateY(200%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 2000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        .toast.info {
+            background: var(--primary);
+        }
+
+        /* ============================================================
+           ACCORDION
+           ============================================================ */
+        .accordion-item {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            margin-bottom: 0.8rem;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: var(--gray-50);
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-200);
+        }
+
+        .accordion-header .arrow {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .accordion-item.open .accordion-header .arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 1000px;
+            padding: 1rem 1.5rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 700px) {
+            body {
+                padding: 0.8rem;
+                font-size: 15px;
+            }
+
+            .card {
+                padding: 1.2rem;
+                border-radius: var(--radius);
+            }
+
+            .playground {
+                padding: 1.2rem;
+            }
+
+            .toolbar button {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         PROGRESS BAR
+         ============================================================ -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ============================================================
+         TOAST NOTIFICATION
+         ============================================================ -->
+    <div class="toast" id="toast">Action completed!</div>
+
+    <!-- ============================================================
+         MAIN CONTAINER
+         ============================================================ -->
+    <div class="container">
+
+        <!-- ============================================================
+             WELCOME / HEADER
+             ============================================================ -->
+        <header class="card highlight welcome">
+            <h1>🚀 5-Hour Beginner's Frontend Bootcamp</h1>
+            <p class="lead">
+                Welcome! This is your complete, step-by-step guide to learning <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong> 
+                from absolute zero. No prior experience needed. By the end of this 5-hour journey, you'll build 
+                real, interactive web pages — and understand exactly how they work.
+            </p>
+            <div class="nav-links">
+                <a href="#schedule">📅 5-Hour Schedule</a>
+                <a href="#hour1">⏱ Hour 1: HTML Basics</a>
+                <a href="#hour2">⏱ Hour 2: HTML Advanced</a>
+                <a href="#hour3">⏱ Hour 3: CSS Fundamentals</a>
+                <a href="#hour4">⏱ Hour 4: CSS Layout &amp; Responsive</a>
+                <a href="#hour5">⏱ Hour 5: JavaScript &amp; Interactivity</a>
+                <a href="#playground">💻 Live Playground</a>
+                <a href="#glossary">📖 Glossary</a>
+            </div>
+            <div class="inline-demo">
+                <span class="badge">📄 HTML5</span>
+                <span class="badge green">🎨 CSS3</span>
+                <span class="badge purple">⚡ JavaScript</span>
+                <span class="badge amber">✅ Form Validation</span>
+                <span class="badge red">🏗️ Projects</span>
+            </div>
+        </header>
+
+        <!-- ============================================================
+             5-HOUR SCHEDULE
+             ============================================================ -->
+        <div class="card" id="schedule">
+            <h2>📅 Your 5-Hour Learning Schedule</h2>
+            <p class="lead">
+                Each hour is carefully structured: <strong>30 minutes of theory</strong>, 
+                <strong>20 minutes of guided practice</strong>, and <strong>10 minutes of independent exercises</strong>. 
+                Take short breaks between hours to let the knowledge sink in.
+            </p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">Hour 1 — 0:00 to 1:00</div>
+                    <div class="timeline-title">📄 HTML Basics: The Structure of the Web</div>
+                    <p>What is HTML? Document structure, headings, paragraphs, links, images, lists, and your first web page.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Hour 2 — 1:00 to 2:00</div>
+                    <div class="timeline-title">📄 HTML Advanced: Forms, Tables &amp; Semantics</div>
+                    <p>Forms with inputs and validation, tables, semantic tags, accessibility basics, and SEO.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Hour 3 — 2:00 to 3:00</div>
+                    <div class="timeline-title">🎨 CSS Fundamentals: Making It Beautiful</div>
+                    <p>What is CSS? Selectors, colors, typography, the box model, borders, shadows, and pseudo-classes.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Hour 4 — 3:00 to 4:00</div>
+                    <div class="timeline-title">🎨 CSS Layout &amp; Responsive Design</div>
+                    <p>Flexbox, CSS Grid, positioning, media queries, mobile-first design, and CSS variables.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Hour 5 — 4:00 to 5:00</div>
+                    <div class="timeline-title">⚡ JavaScript &amp; Interactivity</div>
+                    <p>Variables, functions, DOM manipulation, events, form validation, and building your first interactive app.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">Bonus — After 5:00</div>
+                    <div class="timeline-title">🚀 Projects &amp; Next Steps</div>
+                    <p>Build a todo app, a contact form with validation, and a user dashboard. Plus resources for continuing your journey.</p>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>How to use this guide:</strong> Read each section carefully. Type out the code examples yourself (don't copy-paste!). 
+                Complete every exercise in the live playground. If you get stuck, the solutions are provided. 
+                <strong>Practice is everything.</strong>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             HOUR 1: HTML BASICS
+             ============================================================ -->
+        <div class="card" id="hour1">
+            <h2>⏱ Hour 1 — HTML Basics: The Structure of the Web</h2>
+
+            <h3>📌 1.1 What is HTML?</h3>
+            <p class="lead">
+                <strong>HTML</strong> stands for <strong>HyperText Markup Language</strong>. It is the standard language 
+                used to create the <em>structure</em> of every website you've ever visited. Think of HTML as the 
+                <strong>skeleton</strong> of a web page — it defines what content exists and what it means.
+            </p>
+
+            <div class="info">
+                <strong>Key insight:</strong> HTML is <em>not</em> a programming language. It's a <em>markup</em> language. 
+                It doesn't have logic, loops, or conditions. It simply describes the structure and meaning of content.
+            </div>
+
+            <h4>Analogy: HTML is like a house's frame</h4>
+            <p>
+                Imagine building a house. Before you paint walls or arrange furniture, you need a frame: 
+                walls, floors, rooms, and a roof. HTML is that frame for a website. CSS is the paint and decoration, 
+                and JavaScript is the electricity and plumbing that makes things work.
+            </p>
+
+            <h3>📌 1.2 The Anatomy of an HTML Element</h3>
+            <p>Every HTML element follows this pattern:</p>
+            <pre>&lt;tagname attribute="value"&gt;Content goes here&lt;/tagname&gt;</pre>
+            <ul class="styled-list">
+                <li><strong>Opening tag:</strong> <code>&lt;p&gt;</code> — tells the browser where the element begins.</li>
+                <li><strong>Content:</strong> The text or other elements inside.</li>
+                <li><strong>Closing tag:</strong> <code>&lt;/p&gt;</code> — tells the browser where it ends (note the forward slash).</li>
+                <li><strong>Attributes:</strong> Extra information like <code>href</code>, <code>src</code>, <code>class</code>, or <code>id</code>.</li>
+            </ul>
+
+            <div class="note">
+                Some elements are <strong>self-closing</strong> and have no content: <code>&lt;img&gt;</code>, 
+                <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;meta&gt;</code>.
+            </div>
+
+            <h3>📌 1.3 The Basic HTML Document Structure</h3>
+            <p>Every HTML5 page starts with this exact skeleton:</p>
+            <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My First Web Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- All visible content goes here --&gt;
+    &lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr><th>Line</th><th>What it does</th><th>Why it matters</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Tells the browser this is HTML5</td><td>Without it, browsers may use "quirks mode" and render incorrectly</td></tr>
+                        <tr><td><code>&lt;html lang="en"&gt;</code></td><td>Root element; <code>lang</code> specifies language</td><td>Helps screen readers and search engines</td></tr>
+                        <tr><td><code>&lt;head&gt;</code></td><td>Contains metadata (not visible)</td><td>Title, character encoding, stylesheets, scripts</td></tr>
+                        <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Character encoding</td><td>Supports emojis and international characters</td></tr>
+                        <tr><td><code>&lt;meta name="viewport"&gt;</code></td><td>Controls mobile rendering</td><td>Makes pages responsive on phones</td></tr>
+                        <tr><td><code>&lt;title&gt;</code></td><td>Page title</td><td>Shown in browser tab and Google search results</td></tr>
+                        <tr><td><code>&lt;body&gt;</code></td><td>All visible content</td><td>Everything users see and interact with</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>📌 1.4 Headings — Structuring Your Content</h3>
+            <p>HTML has 6 levels of headings, from <code>&lt;h1&gt;</code> (most important) to <code>&lt;h6&gt;</code> (least important):</p>
+            <pre>&lt;h1&gt;Main Title (use only once per page)&lt;/h1&gt;
+&lt;h2&gt;Section Heading&lt;/h2&gt;
+&lt;h3&gt;Subsection Heading&lt;/h3&gt;
+&lt;h4&gt;Smaller Heading&lt;/h4&gt;
+&lt;h5&gt;Even Smaller&lt;/h5&gt;
+&lt;h6&gt;Smallest Heading&lt;/h6&gt;</pre>
+
+            <div class="warning">
+                <strong>Important:</strong> Don't skip heading levels! Go from <code>&lt;h1&gt;</code> to <code>&lt;h2&gt;</code> to <code>&lt;h3&gt;</code>, 
+                not from <code>&lt;h1&gt;</code> to <code>&lt;h4&gt;</code>. This matters for accessibility and SEO.
+            </div>
+
+            <h3>📌 1.5 Paragraphs &amp; Text Formatting</h3>
+            <pre>&lt;p&gt;This is a paragraph. It's the most common element for text.&lt;/p&gt;
+&lt;p&gt;This is another paragraph.&lt;/p&gt;
+
+&lt;strong&gt;This text is bold (strong importance).&lt;/strong&gt;
+&lt;em&gt;This text is italic (emphasis).&lt;/em&gt;
+&lt;br&gt; &lt;!-- Line break --&gt;
+&lt;hr&gt; &lt;!-- Horizontal rule (divider) --&gt;</pre>
+
+            <div class="note">
+                <strong>Semantic vs. visual:</strong> Use <code>&lt;strong&gt;</code> instead of <code>&lt;b&gt;</code> and 
+                <code>&lt;em&gt;</code> instead of <code>&lt;i&gt;</code>. They look similar but carry meaning that helps 
+                screen readers and search engines understand your content.
+            </div>
+
+            <h3>📌 1.6 Links — Connecting the Web</h3>
+            <pre>&lt;a href="https://example.com"&gt;Visit Example&lt;/a&gt;
+&lt;a href="about.html"&gt;About Us&lt;/a&gt;
+&lt;a href="mailto:hello@example.com"&gt;Email Us&lt;/a&gt;
+&lt;a href="tel:+15551234567"&gt;Call Us&lt;/a&gt;
+&lt;a href="https://example.com" target="_blank" rel="noopener"&gt;Open in new tab&lt;/a&gt;</pre>
+
+            <ul class="styled-list">
+                <li><code>href</code> — The destination (required).</li>
+                <li><code>target="_blank"</code> — Opens in a new tab.</li>
+                <li><code>rel="noopener"</code> — Security best practice when using <code>target="_blank"</code>.</li>
+                <li><code>title</code> — Tooltip text shown on hover.</li>
+            </ul>
+
+            <h3>📌 1.7 Images — Adding Visual Content</h3>
+            <pre>&lt;img src="photo.jpg" alt="A beautiful sunset over the ocean" width="400" height="300"&gt;
+
+&lt;!-- Image from the internet --&gt;
+&lt;img src="https://picsum.photos/300/200" alt="Random placeholder image"&gt;</pre>
+
+            <ul class="styled-list">
+                <li><code>src</code> — Path or URL to the image (required).</li>
+                <li><code>alt</code> — Alternative text (required for accessibility).</li>
+                <li><code>width</code> / <code>height</code> — Dimensions in pixels.</li>
+            </ul>
+
+            <div class="danger">
+                <strong>Never skip <code>alt</code> text!</strong> Screen readers use it to describe images to visually impaired users. 
+                If an image fails to load, the alt text is shown. It's also crucial for SEO.
+            </div>
+
+            <h3>📌 1.8 Lists — Organizing Information</h3>
+            <div class="two-col">
+                <div>
+                    <h4>Unordered List (bullets)</h4>
+                    <pre>&lt;ul&gt;
+  &lt;li&gt;Apples&lt;/li&gt;
+  &lt;li&gt;Bananas&lt;/li&gt;
+  &lt;li&gt;Cherries&lt;/li&gt;
+&lt;/ul&gt;</pre>
+                    <ul>
+                        <li>Apples</li>
+                        <li>Bananas</li>
+                        <li>Cherries</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Ordered List (numbers)</h4>
+                    <pre>&lt;ol&gt;
+  &lt;li&gt;Preheat oven&lt;/li&gt;
+  &lt;li&gt;Mix ingredients&lt;/li&gt;
+  &lt;li&gt;Bake for 30 minutes&lt;/li&gt;
+&lt;/ol&gt;</pre>
+                    <ol>
+                        <li>Preheat oven</li>
+                        <li>Mix ingredients</li>
+                        <li>Bake for 30 minutes</li>
+                    </ol>
+                </div>
+            </div>
+
+            <h3>📌 1.9 HTML Comments</h3>
+            <p>Comments are notes for yourself and other developers. They are ignored by the browser:</p>
+            <pre>&lt;!-- This is a comment. It won't appear on the page. --&gt;
+&lt;p&gt;This paragraph is visible.&lt;/p&gt;
+&lt;!-- TODO: Add a contact form here --&gt;</pre>
+
+            <h3>🧪 Hour 1 — Exercises</h3>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 1.1 — Your First Web Page <span class="difficulty diff-easy">Easy</span></h4>
+                <p>Create a complete HTML page with:</p>
+                <ul class="styled-list">
+                    <li>The correct <code>&lt;!DOCTYPE html&gt;</code> and document structure</li>
+                    <li>An <code>&lt;h1&gt;</code> that says "My First Web Page"</li>
+                    <li>A paragraph introducing yourself</li>
+                    <li>A horizontal rule (<code>&lt;hr&gt;</code>) below the paragraph</li>
+                    <li>A footer paragraph with your name and the current year</li>
+                </ul>
+                <p><strong>Test it in the live playground at the bottom of this page.</strong></p>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 1.2 — Links &amp; Images <span class="difficulty diff-easy">Easy</span></h4>
+                <p>Add to your page:</p>
+                <ul class="styled-list">
+                    <li>A link to <code>https://developer.mozilla.org</code> that opens in a new tab</li>
+                    <li>An image from <code>https://picsum.photos/300/200</code> with proper alt text</li>
+                    <li>A second link that sends an email to <code>hello@example.com</code></li>
+                    <li>A third link that calls the phone number <code>+15551234567</code></li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 1.3 — Lists &amp; Structure <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Create a page with:</p>
+                <ul class="styled-list">
+                    <li>An <code>&lt;h1&gt;</code> titled "My Favorite Things"</li>
+                    <li>An <code>&lt;h2&gt;</code> for "Favorite Foods" followed by an unordered list of 5 foods</li>
+                    <li>An <code>&lt;h2&gt;</code> for "Daily Routine" followed by an ordered list of 5 activities</li>
+                    <li>A paragraph at the end explaining why you enjoy these things, with <strong>bold</strong> and <em>italic</em> words</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>💡 Tip:</strong> After completing each exercise, view the page in your browser. 
+                Right-click and select "Inspect" to see the HTML structure. This is how professional developers debug their code!
+            </div>
+        </div>
+
+        <!-- ============================================================
+             HOUR 2: HTML ADVANCED
+             ============================================================ -->
+        <div class="card" id="hour2">
+            <h2>⏱ Hour 2 — HTML Advanced: Forms, Tables &amp; Semantics</h2>
+
+            <h3>📌 2.1 Forms — Collecting User Input</h3>
+            <p class="lead">
+                Forms are how websites collect information from users: login, signup, search, checkout, contact — 
+                almost every interactive website uses forms. This is a critical skill.
+            </p>
+
+            <pre>&lt;form action="/submit" method="POST"&gt;
+    &lt;!-- Text input --&gt;
+    &lt;label for="name"&gt;Full Name:&lt;/label&gt;
+    &lt;input type="text" id="name" name="name" placeholder="John Doe" required&gt;
+    
+    &lt;!-- Email input --&gt;
+    &lt;label for="email"&gt;Email:&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" placeholder="john@example.com" required&gt;
+    
+    &lt;!-- Password input --&gt;
+    &lt;label for="password"&gt;Password:&lt;/label&gt;
+    &lt;input type="password" id="password" name="password" minlength="8" required&gt;
+    
+    &lt;!-- Submit button --&gt;
+    &lt;button type="submit"&gt;Create Account&lt;/button&gt;
+&lt;/form&gt;</pre>
+
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr><th>Input Type</th><th>Purpose</th><th>Example</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>text</code></td><td>Single-line text</td><td>Name, username</td></tr>
+                        <tr><td><code>email</code></td><td>Email address (validates format)</td><td>user@example.com</td></tr>
+                        <tr><td><code>password</code></td><td>Hidden characters</td><td>••••••••</td></tr>
+                        <tr><td><code>number</code></td><td>Numeric input</td><td>Age, quantity</td></tr>
+                        <tr><td><code>tel</code></td><td>Phone number</td><td>+1 555 123 4567</td></tr>
+                        <tr><td><code>url</code></td><td>Website address</td><td>https://example.com</td></tr>
+                        <tr><td><code>date</code></td><td>Date picker</td><td>2025-01-15</td></tr>
+                        <tr><td><code>color</code></td><td>Color picker</td><td>#ff5733</td></tr>
+                        <tr><td><code>range</code></td><td>Slider</td><td>0 to 100</td></tr>
+                        <tr><td><code>file</code></td><td>File upload</td><td>photo.jpg</td></tr>
+                        <tr><td><code>checkbox</code></td><td>Multiple selections</td><td>☑ I agree</td></tr>
+                        <tr><td><code>radio</code></td><td>Single selection</td><td>◉ Option A</td></tr>
+                        <tr><td><code>hidden</code></td><td>Not visible to user</td><td>Form tokens</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>HTML5 Validation Attributes</h4>
+            <pre>&lt;input type="text" required minlength="3" maxlength="20"&gt;
+&lt;input type="number" min="18" max="120"&gt;
+&lt;input type="email" required&gt;
+&lt;input type="text" pattern="[0-9]{5}" placeholder="5-digit ZIP"&gt;</pre>
+
+            <ul class="styled-list">
+                <li><code>required</code> — Field must be filled.</li>
+                <li><code>minlength</code> / <code>maxlength</code> — Text length limits.</li>
+                <li><code>min</code> / <code>max</code> — Numeric limits.</li>
+                <li><code>pattern</code> — A regular expression the value must match.</li>
+                <li><code>placeholder</code> — Hint text shown inside the input.</li>
+            </ul>
+
+            <h3>📌 2.2 Select, Textarea &amp; Buttons</h3>
+            <pre>&lt;!-- Dropdown menu --&gt;
+&lt;label for="country"&gt;Country:&lt;/label&gt;
+&lt;select id="country" name="country"&gt;
+    &lt;option value=""&gt;Choose...&lt;/option&gt;
+    &lt;option value="us"&gt;United States&lt;/option&gt;
+    &lt;option value="uk"&gt;United Kingdom&lt;/option&gt;
+    &lt;option value="ca"&gt;Canada&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Multi-line text --&gt;
+&lt;label for="message"&gt;Message:&lt;/label&gt;
+&lt;textarea id="message" name="message" rows="4" maxlength="500"&gt;&lt;/textarea&gt;
+
+&lt;!-- Button types --&gt;
+&lt;button type="submit"&gt;Submit&lt;/button&gt;   &lt;!-- Submits form --&gt;
+&lt;button type="reset"&gt;Reset&lt;/button&gt;     &lt;!-- Clears form --&gt;
+&lt;button type="button"&gt;Click Me&lt;/button&gt;  &lt;!-- No default action --&gt;</pre>
+
+            <h3>📌 2.3 Tables — Displaying Data</h3>
+            <pre>&lt;table&gt;
+    &lt;caption&gt;Monthly Sales Report&lt;/caption&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th scope="col"&gt;Month&lt;/th&gt;
+            &lt;th scope="col"&gt;Revenue&lt;/th&gt;
+            &lt;th scope="col"&gt;Growth&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;January&lt;/td&gt;
+            &lt;td&gt;$45,000&lt;/td&gt;
+            &lt;td&gt;+12%&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;February&lt;/td&gt;
+            &lt;td&gt;$52,000&lt;/td&gt;
+            &lt;td&gt;+15%&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+    &lt;tfoot&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;strong&gt;Total&lt;/strong&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;strong&gt;$97,000&lt;/strong&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;strong&gt;+13.5%&lt;/strong&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tfoot&gt;
+&lt;/table&gt;</pre>
+
+            <div class="note">
+                <strong>Accessibility tip:</strong> Use <code>scope="col"</code> on header cells to tell screen readers 
+                which column they describe. Use <code>&lt;caption&gt;</code> to give the table a title.
+            </div>
+
+            <h3>📌 2.4 Semantic HTML — Meaningful Structure</h3>
+            <p class="lead">
+                Semantic tags describe their <em>meaning</em>, not just their appearance. They make your code 
+                easier to read, better for SEO, and more accessible.
+            </p>
+
+            <div class="two-col">
+                <div>
+                    <h4>❌ Non-semantic (avoid)</h4>
+                    <pre>&lt;div id="header"&gt;...&lt;/div&gt;
+&lt;div id="nav"&gt;...&lt;/div&gt;
+&lt;div id="main"&gt;...&lt;/div&gt;
+&lt;div id="footer"&gt;...&lt;/div&gt;</pre>
+                </div>
+                <div>
+                    <h4>✅ Semantic (preferred)</h4>
+                    <pre>&lt;header&gt;...&lt;/header&gt;
+&lt;nav&gt;...&lt;/nav&gt;
+&lt;main&gt;...&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</pre>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr><th>Tag</th><th>Purpose</th><th>Where to use it</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>&lt;header&gt;</code></td><td>Introductory content</td><td>Top of page or section</td></tr>
+                        <tr><td><code>&lt;nav&gt;</code></td><td>Navigation links</td><td>Menus, breadcrumbs</td></tr>
+                        <tr><td><code>&lt;main&gt;</code></td><td>Main content</td><td>Once per page</td></tr>
+                        <tr><td><code>&lt;section&gt;</code></td><td>Thematic grouping</td><td>About, Features, Contact</td></tr>
+                        <tr><td><code>&lt;article&gt;</code></td><td>Self-contained content</td><td>Blog post, news article</td></tr>
+                        <tr><td><code>&lt;aside&gt;</code></td><td>Tangential content</td><td>Sidebar, related links</td></tr>
+                        <tr><td><code>&lt;footer&gt;</code></td><td>Footer info</td><td>Copyright, contact</td></tr>
+                        <tr><td><code>&lt;figure&gt;</code></td><td>Image with caption</td><td>Photos with descriptions</td></tr>
+                        <tr><td><code>&lt;figcaption&gt;</code></td><td>Caption for figure</td><td>Inside <code>&lt;figure&gt;</code></td></tr>
+                        <tr><td><code>&lt;details&gt;</code></td><td>Expandable content</td><td>FAQ, accordions</td></tr>
+                        <tr><td><code>&lt;summary&gt;</code></td><td>Heading for details</td><td>Inside <code>&lt;details&gt;</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>🧪 Hour 2 — Exercises</h3>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 2.1 — Registration Form <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Build a complete registration form with:</p>
+                <ul class="styled-list">
+                    <li>Full name (text, required, min 3 characters)</li>
+                    <li>Username (text, required, pattern: letters and numbers only)</li>
+                    <li>Email (email, required)</li>
+                    <li>Password (password, required, min 8 characters)</li>
+                    <li>Date of birth (date)</li>
+                    <li>Gender (radio buttons: Male, Female, Other)</li>
+                    <li>Country (select dropdown with 5 countries)</li>
+                    <li>Bio (textarea, max 300 characters)</li>
+                    <li>Terms checkbox (required)</li>
+                    <li>Submit button</li>
+                </ul>
+                <p>Use proper <code>&lt;label&gt;</code> elements for every input.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 2.2 — Semantic Blog Layout <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Create a semantic HTML page for a blog post with:</p>
+                <ul class="styled-list">
+                    <li><code>&lt;header&gt;</code> with the blog title and a <code>&lt;nav&gt;</code> menu (Home, About, Contact)</li>
+                    <li><code>&lt;main&gt;</code> containing an <code>&lt;article&gt;</code> with:
+                        <ul>
+                            <li>An <code>&lt;h1&gt;</code> title</li>
+                            <li>A byline with author and date</li>
+                            <li>Several paragraphs</li>
+                            <li>A <code>&lt;blockquote&gt;</code> with a citation</li>
+                            <li>A <code>&lt;figure&gt;</code> with an image and <code>&lt;figcaption&gt;</code></li>
+                        </ul>
+                    </li>
+                    <li><code>&lt;aside&gt;</code> with a list of related articles</li>
+                    <li><code>&lt;footer&gt;</code> with copyright info</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 2.3 — Data Table <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Create an accessible table showing a product list with columns: Product Name, Category, Price, Stock Status. 
+                Include a <code>&lt;caption&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, 
+                <code>&lt;tfoot&gt;</code> with totals, and <code>scope="col"</code> on all headers.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 2.4 — FAQ with Details/Summary <span class="difficulty diff-easy">Easy</span></h4>
+                <p>Create a FAQ section using <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> tags. 
+                Include at least 4 questions about HTML, each expanding to show the answer.</p>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             HOUR 3: CSS FUNDAMENTALS
+             ============================================================ -->
+        <div class="card" id="hour3">
+            <h2>⏱ Hour 3 — CSS Fundamentals: Making It Beautiful</h2>
+
+            <h3>📌 3.1 What is CSS?</h3>
+            <p class="lead">
+                <strong>CSS</strong> stands for <strong>Cascading Style Sheets</strong>. If HTML is the skeleton of a web page, 
+                CSS is the <strong>skin, hair, and clothing</strong> — it controls colors, fonts, spacing, layout, and everything visual.
+            </p>
+
+            <div class="info">
+                <strong>The "Cascading" part:</strong> When multiple CSS rules apply to the same element, 
+                the browser "cascades" through them using specificity and order to decide which wins.
+            </div>
+
+            <h3>📌 3.2 Three Ways to Add CSS</h3>
+            <div class="three-col">
+                <div>
+                    <h4>1. Inline (worst)</h4>
+                    <pre>&lt;p style="color: red;"&gt;
+  Text
+&lt;/p&gt;</pre>
+                    <p><small>Quick for testing, but hard to maintain and mixes content with presentation.</small></p>
+                </div>
+                <div>
+                    <h4>2. Internal</h4>
+                    <pre>&lt;head&gt;
+  &lt;style&gt;
+    p { color: red; }
+  &lt;/style&gt;
+&lt;/head&gt;</pre>
+                    <p><small>Good for single-page demos and prototypes.</small></p>
+                </div>
+                <div>
+                    <h4>3. External (best)</h4>
+                    <pre>&lt;link rel="stylesheet" 
+      href="style.css"&gt;</pre>
+                    <p><small>Separates concerns, reusable across pages, cacheable by browsers.</small></p>
+                </div>
+            </div>
+
+            <h3>📌 3.3 CSS Syntax</h3>
+            <pre>selector {
+    property: value;
+    property: value;
+}
+
+/* Example */
+p {
+    color: #333333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Multiple selectors */
+h1, h2, h3 {
+    font-family: Arial, sans-serif;
+}</pre>
+
+            <h3>📌 3.4 Selectors — Targeting Elements</h3>
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead>
+                        <tr><th>Selector</th><th>Syntax</th><th>What it selects</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Element</td><td><code>p { }</code></td><td>All <code>&lt;p&gt;</code> elements</td></tr>
+                        <tr><td>Class</td><td><code>.highlight { }</code></td><td>All elements with <code>class="highlight"</code></td></tr>
+                        <tr><td>ID</td><td><code>#header { }</code></td><td>The one element with <code>id="header"</code></td></tr>
+                        <tr><td>Universal</td><td><code>* { }</code></td><td>Every element on the page</td></tr>
+                        <tr><td>Descendant</td><td><code>div p { }</code></td><td>All <code>&lt;p&gt;</code> inside <code>&lt;div&gt;</code></td></tr>
+                        <tr><td>Direct child</td><td><code>div &gt; p { }</code></td><td>Only direct <code>&lt;p&gt;</code> children of <code>&lt;div&gt;</code></td></tr>
+                        <tr><td>Adjacent sibling</td><td><code>h1 + p { }</code></td><td><code>&lt;p&gt;</code> immediately after <code>&lt;h1&gt;</code></td></tr>
+                        <tr><td>Attribute</td><td><code>input[type="text"] { }</code></td><td>Text inputs only</td></tr>
+                        <tr><td>Pseudo-class</td><td><code>a:hover { }</code></td><td>Links when hovered</td></tr>
+                        <tr><td>Pseudo-element</td><td><code>p::first-line { }</code></td><td>First line of every paragraph</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>📌 3.5 Colors in CSS</h3>
+            <pre>/* Named colors */
+color: red;
+color: steelblue;
+
+/* Hexadecimal (most common) */
+color: #ff5733;
+color: #333;          /* shorthand for #333333 */
+
+/* RGB / RGBA */
+color: rgb(255, 87, 51);
+background: rgba(0, 0, 0, 0.5);  /* 50% transparent black */
+
+/* HSL (Hue, Saturation, Lightness) */
+color: hsl(9, 100%, 60%);
+
+/* Gradients */
+background: linear-gradient(135deg, #667eea, #764ba2);
+background: radial-gradient(circle, #ff5733, #ffc300);</pre>
+
+            <h3>📌 3.6 Typography — Styling Text</h3>
+            <pre>body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;      /* 1rem = 16px by default */
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+p {
+    text-indent: 1.5rem;
+    word-spacing: 0.05rem;
+}
+
+a {
+    text-decoration: none;   /* remove underline */
+}</pre>
+
+            <div class="note">
+                <strong>Units explained:</strong> <code>px</code> is absolute (fixed). <code>rem</code> is relative to the root font size (usually 16px). 
+                <code>em</code> is relative to the parent's font size. <code>%</code> is relative to the parent. 
+                Use <code>rem</code> for most things — it respects user accessibility settings.
+            </div>
+
+            <h3>📌 3.7 The Box Model — The Most Important Concept</h3>
+            <p class="lead">Every element on a web page is a rectangular box. This box has four layers:</p>
+
+            <div class="demo-box" style="display:block; text-align:center;">
+                <div style="background:#dbeafe; padding:1.5rem; border-radius:1rem; display:inline-block;">
+                    <div style="background:#93c5fd; padding:1rem; border-radius:0.5rem;">
+                        <div style="background:#3b82f6; color:white; padding:1rem; border-radius:0.3rem; font-weight:bold;">
+                            CONTENT
+                        </div>
+                        <p style="font-size:0.8rem; margin-top:0.3rem; color:#1e40af;">padding</p>
+                    </div>
+                    <p style="font-size:0.8rem; margin-top:0.3rem; color:#1e40af;">border</p>
+                </div>
+                <p style="font-size:0.8rem; margin-top:0.3rem; color:#1e40af;">margin (invisible space outside)</p>
+            </div>
+
+            <pre>div {
+    width: 300px;              /* content width */
+    padding: 20px;             /* space inside, around content */
+    border: 2px solid black;   /* visible border */
+    margin: 30px;              /* space outside the border */
+}
+
+/* box-sizing: border-box makes width include padding + border */
+* {
+    box-sizing: border-box;
+}</pre>
+
+            <div class="warning">
+                <strong>Critical:</strong> By default, <code>width</code> only applies to the content. 
+                So a <code>width: 300px</code> element with <code>padding: 20px</code> and <code>border: 2px</code> 
+                actually takes up 300 + 40 + 4 = 344px. Use <code>box-sizing: border-box</code> to make it 300px total.
+            </div>
+
+            <h3>📌 3.8 Borders, Shadows &amp; Rounded Corners</h3>
+            <pre>.card {
+    border: 2px solid #2563eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    /* Multiple shadows */
+    box-shadow: 
+        0 2px 4px rgba(0,0,0,0.1),
+        0 8px 16px rgba(0,0,0,0.1);
+}
+
+/* Text shadow */
+h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}</pre>
+
+            <div class="demo-box">
+                <div class="box" style="border:4px solid #0f172a; background:#fbbf24; color:#0f172a;">Bordered</div>
+                <div class="box" style="box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);">Shadow</div>
+                <div class="box rounded">Rounded</div>
+                <div class="box" style="background:linear-gradient(135deg,#ec4899,#f97316);">Gradient</div>
+            </div>
+
+            <h3>📌 3.9 Pseudo-classes &amp; Transitions</h3>
+            <pre>.btn {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}</pre>
+
+            <div class="demo-box">
+                <div class="box" style="background:#3b82f6; transition:all 0.3s; cursor:pointer;"
+                     onmouseover="this.style.background='#1d4ed8'; this.style.transform='scale(1.1)'"
+                     onmouseout="this.style.background='#3b82f6'; this.style.transform='scale(1)'">
+                    Hover me
+                </div>
+                <div class="box" style="background:#8b5cf6; transition:all 0.3s; cursor:pointer;"
+                     onmouseover="this.style.borderRadius='50%'; this.style.background='#ec4899'"
+                     onmouseout="this.style.borderRadius='12px'; this.style.background='#8b5cf6'">
+                    Morph
+                </div>
+            </div>
+
+            <h3>🧪 Hour 3 — Exercises</h3>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 3.1 — Style Your First Page <span class="difficulty diff-easy">Easy</span></h4>
+                <p>Take the page you built in Exercise 1.1 and style it with CSS:</p>
+                <ul class="styled-list">
+                    <li>Set a background color for the body</li>
+                    <li>Center the <code>&lt;h1&gt;</code> and give it a custom color and font size</li>
+                    <li>Add line-height and a readable font family to paragraphs</li>
+                    <li>Give the page a max-width and center it with <code>margin: 0 auto</code></li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 3.2 — Card Component <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Build a "profile card" with:</p>
+                <ul class="styled-list">
+                    <li>Rounded corners (16px), subtle shadow, padding 20px</li>
+                    <li>Width 300px, centered on the page</li>
+                    <li>An avatar (colored circle with initials), name, and short bio</li>
+                    <li>A button at the bottom with a hover effect (color change + scale up)</li>
+                    <li>Use the box model correctly with <code>box-sizing: border-box</code></li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 3.3 — Styled Buttons <span class="difficulty diff-easy">Easy</span></h4>
+                <p>Create three different button styles:</p>
+                <ul class="styled-list">
+                    <li><strong>Primary:</strong> Solid blue background, white text, rounded, hover darkens and lifts</li>
+                    <li><strong>Secondary:</strong> Transparent with a blue border, hover fills with blue</li>
+                    <li><strong>Danger:</strong> Red background, hover darkens with a shadow</li>
+                </ul>
+                <p>Add smooth transitions to all buttons.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 3.4 — Typography System <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Create a well-designed article page with:</p>
+                <ul class="styled-list">
+                    <li>A clear typographic hierarchy (h1 largest, h2 smaller, body text readable)</li>
+                    <li>Comfortable line-height (1.6-1.8) for paragraphs</li>
+                    <li>A maximum line length (max-width: 65ch) for readability</li>
+                    <li>Styled links with hover effects</li>
+                    <li>Styled blockquote with a colored left border</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             HOUR 4: CSS LAYOUT & RESPONSIVE
+             ============================================================ -->
+        <div class="card" id="hour4">
+            <h2>⏱ Hour 4 — CSS Layout &amp; Responsive Design</h2>
+
+            <h3>📌 4.1 Flexbox — One-Dimensional Layout</h3>
+            <p class="lead">
+                Flexbox is a layout method for arranging items in a row or column. It's perfect for navigation bars, 
+                card layouts, centering content, and distributing space.
+            </p>
+
+            <pre>.container {
+    display: flex;
+    flex-direction: row;         /* row | column | row-reverse | column-reverse */
+    justify-content: space-between; /* flex-start | flex-end | center | space-between | space-around | space-evenly */
+    align-items: center;         /* stretch | flex-start | flex-end | center | baseline */
+    flex-wrap: wrap;             /* nowrap | wrap | wrap-reverse */
+    gap: 1rem;                   /* space between items */
+}
+
+.item {
+    flex: 1;                     /* grow to fill available space */
+}</pre>
+
+            <div class="demo-box" style="display:block;">
+                <div style="display:flex; gap:1rem; justify-content:space-between; flex-wrap:wrap;">
+                    <div style="background:var(--primary); color:white; padding:1rem 2rem; border-radius:0.8rem; font-weight:600;">Item 1</div>
+                    <div style="background:var(--secondary); color:white; padding:1rem 2rem; border-radius:0.8rem; font-weight:600;">Item 2</div>
+                    <div style="background:var(--success); color:white; padding:1rem 2rem; border-radius:0.8rem; font-weight:600;">Item 3</div>
+                </div>
+            </div>
+
+            <h4>Common Flexbox Use Cases</h4>
+            <ul class="styled-list">
+                <li><strong>Center anything:</strong> <code>display: flex; justify-content: center; align-items: center;</code></li>
+                <li><strong>Navigation bar:</strong> logo on left, links on right — <code>justify-content: space-between;</code></li>
+                <li><strong>Equal-height columns:</strong> <code>display: flex;</code> on the parent</li>
+                <li><strong>Push footer to bottom:</strong> <code>flex-direction: column;</code> with <code>flex: 1;</code> on main</li>
+            </ul>
+
+            <h3>📌 4.2 CSS Grid — Two-Dimensional Layout</h3>
+            <p class="lead">
+                Grid is perfect for complex layouts with rows <em>and</em> columns — like a dashboard, 
+                a photo gallery, or a full page layout.
+            </p>
+
+            <pre>.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);   /* 3 equal columns */
+    grid-template-rows: auto 1fr auto;
+    gap: 1rem;
+    
+    /* Named areas */
+    grid-template-areas: 
+        "header header header"
+        "sidebar main main"
+        "footer footer footer";
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.footer  { grid-area: footer; }</pre>
+
+            <div class="demo-box" style="display:block;">
+                <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem;">
+                    <div style="background:var(--primary); color:white; padding:1.5rem; border-radius:0.8rem; text-align:center; font-weight:600;">1</div>
+                    <div style="background:var(--secondary); color:white; padding:1.5rem; border-radius:0.8rem; text-align:center; font-weight:600;">2</div>
+                    <div style="background:var(--success); color:white; padding:1.5rem; border-radius:0.8rem; text-align:center; font-weight:600;">3</div>
+                    <div style="background:var(--warning); color:white; padding:1.5rem; border-radius:0.8rem; text-align:center; font-weight:600;">4</div>
+                    <div style="background:var(--danger); color:white; padding:1.5rem; border-radius:0.8rem; text-align:center; font-weight:600;">5</div>
+                    <div style="background:#0ea5e9; color:white; padding:1.5rem; border-radius:0.8rem; text-align:center; font-weight:600;">6</div>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Flexbox vs. Grid:</strong> Use Flexbox for one-dimensional layouts (a row of items, a column). 
+                Use Grid for two-dimensional layouts (rows and columns together). They work great together!
+            </div>
+
+            <h3>📌 4.3 Positioning</h3>
+            <pre>.static   { position: static; }    /* default, normal flow */
+.relative { position: relative; top: 10px; left: 20px; }
+.absolute { position: absolute; top: 0; right: 0; }
+.fixed    { position: fixed; bottom: 20px; right: 20px; }
+.sticky   { position: sticky; top: 0; }</pre>
+
+            <div class="table-responsive">
+                <table class="styled-table">
+                    <thead><tr><th>Value</th><th>Behavior</th><th>Common Use</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>static</code></td><td>Normal document flow (default)</td><td>Most elements</td></tr>
+                        <tr><td><code>relative</code></td><td>Offset from its normal position</td><td>Subtle adjustments, containing block for absolute children</td></tr>
+                        <tr><td><code>absolute</code></td><td>Positioned relative to nearest positioned ancestor</td><td>Dropdowns, tooltips, overlays</td></tr>
+                        <tr><td><code>fixed</code></td><td>Positioned relative to viewport; stays on scroll</td><td>Sticky headers, chat widgets, back-to-top buttons</td></tr>
+                        <tr><td><code>sticky</code></td><td>Hybrid: relative until scroll threshold, then fixed</td><td>Sticky table headers, section titles</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>📌 4.4 Responsive Design &amp; Media Queries</h3>
+            <p class="lead">
+                Responsive design means your site looks great on all devices — phones, tablets, and desktops. 
+                The key is <strong>mobile-first</strong> design: start with mobile styles, then add complexity for larger screens.
+            </p>
+
+            <pre>/* Base styles (mobile) */
+.container {
+    width: 100%;
+    padding: 1rem;
+    font-size: 16px;
+}
+
+/* Tablet and up (768px+) */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+        margin: 0 auto;
+        font-size: 17px;
+    }
+}
+
+/* Desktop and up (1024px+) */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 960px;
+    }
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large desktop (1280px+) */
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1200px;
+    }
+}</pre>
+
+            <div class="warning">
+                <strong>Mobile-first is not optional anymore.</strong> Over 60% of web traffic comes from mobile devices. 
+                Always start with mobile styles and enhance upward.
+            </div>
+
+            <h3>📌 4.5 CSS Variables (Custom Properties)</h3>
+            <pre>:root {
+    --primary: #2563eb;
+    --secondary: #8b5cf6;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --radius: 12px;
+    --shadow: 0 4px 12px rgba(0,0,0,0.1);
+    --font-main: 'Segoe UI', sans-serif;
+}
+
+.card {
+    background: white;
+    padding: var(--spacing-md);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-family: var(--font-main);
+}
+
+/* Dark mode with variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #3b82f6;
+        --bg: #0f172a;
+        --text: #e2e8f0;
+    }
+}</pre>
+
+            <h3>🧪 Hour 4 — Exercises</h3>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 4.1 — Responsive Navigation Bar <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Build a navigation bar that:</p>
+                <ul class="styled-list">
+                    <li>Has a logo on the left and 4 links on the right</li>
+                    <li>Uses Flexbox for layout</li>
+                    <li>Stacks vertically on mobile (under 600px)</li>
+                    <li>Has hover effects on the links</li>
+                    <li>Sticks to the top of the page when scrolling</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 4.2 — Responsive Card Grid <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Create a grid of 6 product cards that:</p>
+                <ul class="styled-list">
+                    <li>Shows 1 column on mobile, 2 on tablet, 3 on desktop</li>
+                    <li>Each card has an image placeholder, title, description, and price</li>
+                    <li>Cards lift slightly on hover with a shadow transition</li>
+                    <li>Uses CSS Grid with <code>auto-fit</code> and <code>minmax()</code></li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 4.3 — Full Page Layout with Grid <span class="difficulty diff-hard">Hard</span></h4>
+                <p>Build a complete page layout using CSS Grid with named areas:</p>
+                <ul class="styled-list">
+                    <li>Header (full width)</li>
+                    <li>Sidebar (left column) + Main content (right, wider)</li>
+                    <li>Two widget boxes below the main content</li>
+                    <li>Footer (full width)</li>
+                    <li>On mobile, everything stacks into a single column</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 4.4 — Dark Mode Toggle <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Implement a dark/light mode toggle using CSS variables and a checkbox. 
+                When toggled, all colors should change smoothly with a 0.3s transition.</p>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             HOUR 5: JAVASCRIPT & INTERACTIVITY
+             ============================================================ -->
+        <div class="card" id="hour5">
+            <h2>⏱ Hour 5 — JavaScript &amp; Interactivity</h2>
+
+            <h3>📌 5.1 What is JavaScript?</h3>
+            <p class="lead">
+                <strong>JavaScript</strong> is a programming language that runs in the browser. It makes web pages 
+                <strong>interactive</strong> — responding to clicks, validating forms, fetching data, and updating 
+                content without reloading the page.
+            </p>
+
+            <div class="info">
+                <strong>HTML = structure, CSS = presentation, JavaScript = behavior.</strong> Together, these three 
+                technologies form the foundation of every website.
+            </div>
+
+            <h3>📌 5.2 Variables &amp; Data Types</h3>
+            <pre>// Three ways to declare variables
+let name = "Alex";          // can be reassigned
+const PI = 3.14159;         // cannot be reassigned
+var oldStyle = "avoid";     // function-scoped (legacy, avoid)
+
+// Data types
+let str = "Hello";          // String
+let num = 42;               // Number
+let bool = true;            // Boolean
+let arr = [1, 2, 3];        // Array
+let obj = { key: "value" }; // Object
+let nothing = null;         // Null (intentional empty)
+let notDefined;             // Undefined (not assigned)
+
+// Template literals (use backticks)
+let greeting = `Hello, ${name}! You are ${num} years old.`;
+
+// Type checking
+console.log(typeof str);           // "string"
+console.log(typeof num);           // "number"
+console.log(Array.isArray(arr));   // true</pre>
+
+            <h3>📌 5.3 Functions</h3>
+            <pre>// Function declaration
+function add(a, b) {
+    return a + b;
+}
+
+// Arrow function (modern, shorter)
+const subtract = (a, b) => a - b;
+
+// Default parameters
+function greet(name = "Guest") {
+    return `Hello, ${name}!`;
+}
+
+// Rest parameters
+function sum(...numbers) {
+    return numbers.reduce((total, n) => total + n, 0);
+}
+
+// Calling functions
+console.log(add(2, 3));        // 5
+console.log(greet());          // "Hello, Guest!"
+console.log(greet("Maria"));   // "Hello, Maria!"
+console.log(sum(1, 2, 3, 4));  // 10</pre>
+
+            <h3>📌 5.4 Arrays &amp; Their Methods</h3>
+            <pre>const fruits = ["apple", "banana", "cherry"];
+
+// Access
+console.log(fruits[0]);          // "apple"
+console.log(fruits.length);      // 3
+
+// Add / remove
+fruits.push("date");             // add to end
+fruits.unshift("apricot");       // add to start
+fruits.pop();                    // remove from end
+fruits.shift();                  // remove from start
+
+// Find & filter
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);        // [2, 4, 6, 8, 10]
+const evens = numbers.filter(n => n % 2 === 0); // [2, 4]
+const total = numbers.reduce((sum, n) => sum + n, 0); // 15
+const hasThree = numbers.includes(3);           // true
+
+// Iterate
+fruits.forEach(fruit => console.log(fruit));</pre>
+
+            <h3>📌 5.5 Objects</h3>
+            <pre>const user = {
+    name: "Alex",
+    age: 25,
+    email: "alex@example.com",
+    hobbies: ["reading", "coding"],
+    greet() {
+        return `Hi, I'm ${this.name}`;
+    }
+};
+
+// Access properties
+console.log(user.name);          // "Alex"
+console.log(user["email"]);      // "alex@example.com"
+
+// Modify
+user.age = 26;
+user.city = "New York";          // add new property
+
+// Destructuring
+const { name, age } = user;
+console.log(name, age);          // "Alex" 26
+
+// Spread operator (copy/merge)
+const updatedUser = { ...user, age: 27 };</pre>
+
+            <h3>📌 5.6 DOM Manipulation — Making Pages Interactive</h3>
+            <p class="lead">
+                The <strong>DOM (Document Object Model)</strong> is a JavaScript representation of your HTML. 
+                You can select elements, change their content, styles, and respond to events.
+            </p>
+
+            <pre>// Selecting elements
+const header = document.querySelector('header');
+const buttons = document.querySelectorAll('.btn');
+const title = document.getElementById('main-title');
+
+// Changing content
+title.textContent = "New Title";           // plain text
+title.innerHTML = "&lt;em&gt;Styled&lt;/em&gt;"; // HTML
+
+// Changing styles
+title.style.color = "blue";
+title.style.fontSize = "2rem";
+
+// Adding/removing classes
+title.classList.add('highlight');
+title.classList.remove('hidden');
+title.classList.toggle('active');
+
+// Creating new elements
+const newDiv = document.createElement('div');
+newDiv.textContent = "Hello World";
+newDiv.classList.add('card');
+document.body.appendChild(newDiv);
+
+// Removing elements
+newDiv.remove();</pre>
+
+            <h3>📌 5.7 Events — Responding to User Actions</h3>
+            <pre>// Click event
+const btn = document.querySelector('#myButton');
+btn.addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log('Button clicked!');
+});
+
+// Input event (fires on every keystroke)
+const input = document.querySelector('#myInput');
+input.addEventListener('input', (e) => {
+    console.log('Current value:', e.target.value);
+});
+
+// Submit event (forms)
+const form = document.querySelector('#myForm');
+form.addEventListener('submit', (e) => {
+    e.preventDefault();   // stop page reload
+    console.log('Form submitted');
+});
+
+// Common events:
+// click, dblclick, mousedown, mouseup, mouseover, mouseout
+// keydown, keyup, keypress
+// input, change, focus, blur
+// submit, reset
+// load, DOMContentLoaded</pre>
+
+            <h3>📌 5.8 Form Validation with JavaScript</h3>
+            <p class="lead">
+                While HTML5 provides built-in validation, JavaScript gives you full control over error messages, 
+                real-time feedback, and custom rules.
+            </p>
+
+            <pre>const form = document.getElementById('signupForm');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+
+// Helper: show error
+function showError(input, message) {
+    const group = input.closest('.form-group');
+    const error = group.querySelector('.error-message');
+    input.classList.add('error');
+    input.classList.remove('success');
+    error.textContent = message;
+    error.classList.add('show');
+}
+
+// Helper: show success
+function showSuccess(input) {
+    const group = input.closest('.form-group');
+    const error = group.querySelector('.error-message');
+    input.classList.remove('error');
+    input.classList.add('success');
+    error.classList.remove('show');
+}
+
+// Validators
+function validateEmail() {
+    const value = email.value.trim();
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (value === '') {
+        showError(email, 'Email is required');
+        return false;
+    }
+    if (!regex.test(value)) {
+        showError(email, 'Please enter a valid email');
+        return false;
+    }
+    showSuccess(email);
+    return true;
+}
+
+function validatePassword() {
+    const value = password.value;
+    if (value === '') {
+        showError(password, 'Password is required');
+        return false;
+    }
+    if (value.length < 8) {
+        showError(password, 'Password must be at least 8 characters');
+        return false;
+    }
+    showSuccess(password);
+    return true;
+}
+
+// Real-time validation
+email.addEventListener('blur', validateEmail);
+password.addEventListener('blur', validatePassword);
+
+// Submit
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const isEmailValid = validateEmail();
+    const isPasswordValid = validatePassword();
+    
+    if (isEmailValid && isPasswordValid) {
+        alert('✅ Form submitted successfully!');
+        form.reset();
+        // clear all validation states
+    }
+});</pre>
+
+            <h3>📌 5.9 Regular Expressions (Regex) — Pattern Matching</h3>
+            <pre>// Email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Phone (US format)
+const phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+
+// Password (8+ chars, uppercase, lowercase, number)
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+
+// ZIP code (US)
+const zipRegex = /^\d{5}(-\d{4})?$/;
+
+// URL
+const urlRegex = /^https?:\/\/.+\..+$/;
+
+// Test a regex
+console.log(emailRegex.test("test@example.com"));  // true
+console.log(emailRegex.test("invalid-email"));     // false</pre>
+
+            <h3>📌 5.10 Local Storage — Saving Data in the Browser</h3>
+            <pre>// Save data
+localStorage.setItem('user', JSON.stringify({ name: 'Alex', age: 25 }));
+
+// Retrieve data
+const user = JSON.parse(localStorage.getItem('user'));
+console.log(user.name);   // "Alex"
+
+// Remove data
+localStorage.removeItem('user');
+
+// Clear all
+localStorage.clear();</pre>
+
+            <h3>🧪 Hour 5 — Exercises</h3>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 5.1 — Interactive Counter <span class="difficulty diff-easy">Easy</span></h4>
+                <p>Create a counter with:</p>
+                <ul class="styled-list">
+                    <li>A display showing the current count (starting at 0)</li>
+                    <li>Increment (+1), decrement (-1), and reset buttons</li>
+                    <li>Color changes: red when negative, green when positive, gray at zero</li>
+                    <li>Save the count in <code>localStorage</code> so it persists on reload</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 5.2 — Todo List <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Build a todo list with:</p>
+                <ul class="styled-list">
+                    <li>Text input and "Add" button (Enter key also adds)</li>
+                    <li>Each todo has a checkbox to mark complete and a delete button</li>
+                    <li>Filter buttons: All / Active / Completed</li>
+                    <li>"Clear completed" button</li>
+                    <li>Show count of active todos</li>
+                    <li>Persist todos in <code>localStorage</code></li>
+                    <li>Show an empty state message when no todos exist</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 5.3 — Registration Form with Validation <span class="difficulty diff-hard">Hard</span></h4>
+                <p>Build a registration form with real-time validation:</p>
+                <ul class="styled-list">
+                    <li>Full name (required, min 2 characters)</li>
+                    <li>Username (required, min 3 characters, letters/numbers/underscore only)</li>
+                    <li>Email (required, valid format)</li>
+                    <li>Password (required, min 8, uppercase + lowercase + number)</li>
+                    <li>Confirm password (must match)</li>
+                    <li>Show error messages below each field</li>
+                    <li>Add green/red borders for valid/invalid fields</li>
+                    <li>Disable submit button until all fields are valid</li>
+                    <li>On submit, show a success message and reset the form</li>
+                </ul>
+            </div>
+
+            <div class="exercise">
+                <h4>🔹 Exercise 5.4 — Password Strength Meter <span class="difficulty diff-medium">Medium</span></h4>
+                <p>Create a password input with a live strength meter that:</p>
+                <ul class="styled-list">
+                    <li>Shows a colored bar (red/yellow/green) based on strength</li>
+                    <li>Displays text: "Weak", "Medium", or "Strong"</li>
+                    <li>Checks: length, uppercase, lowercase, numbers, special characters</li>
+                    <li>Updates in real-time as the user types</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             LIVE PLAYGROUND
+             ============================================================ -->
+        <div class="playground" id="playground">
+            <h2 style="margin-top: 0; border-left-color: #8b5cf6;">💻 Live Coding Playground</h2>
+            <p class="lead">
+                This is your sandbox! Edit the HTML, CSS, and JavaScript below, then click 
+                <strong>"Run code"</strong> (or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd>) to see the result instantly. 
+                Use this for all exercises and experiments.
+            </p>
+
+            <div class="three-col">
+                <div>
+                    <div class="editor-label">📄 HTML <i>editable</i></div>
+                    <textarea id="htmlEditor" spellcheck="false">&lt;!-- Write your HTML here --&gt;
+&lt;div class="app"&gt;
+  &lt;h1&gt;My Frontend App&lt;/h1&gt;
+  &lt;p&gt;Edit the HTML, CSS, and JavaScript!&lt;/p&gt;
+  &lt;button id="demoBtn"&gt;Click me&lt;/button&gt;
+  &lt;p id="output"&gt;&lt;/p&gt;
+&lt;/div&gt;</textarea>
+                </div>
+                <div>
+                    <div class="editor-label">🎨 CSS <i>editable</i></div>
+                    <textarea id="cssEditor" spellcheck="false">/* Write your CSS here */
+body {
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.app {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+h1 {
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+#output {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #10b981;
+}</textarea>
+                </div>
+                <div>
+                    <div class="editor-label">⚡ JavaScript <i>editable</i></div>
+                    <textarea id="jsEditor" spellcheck="false">// Write your JavaScript here
+const btn = document.getElementById('demoBtn');
+const output = document.getElementById('output');
+let count = 0;
+
+btn.addEventListener('click', () => {
+  count++;
+  output.textContent = `Clicked ${count} time${count !== 1 ? 's' : ''}! 🎉`;
+  
+  if (count === 5) {
+    output.textContent = 'Wow, 5 clicks! You\'re on fire! 🔥';
+  }
+});</textarea>
+                </div>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <button id="runBtn" class="btn">▶ Run code</button>
+                <button id="resetBtn" class="btn secondary">↺ Reset</button>
+                <button id="clearBtn" class="btn secondary">🗑 Clear all</button>
+                <button id="loadFormBtn" class="btn success">📝 Load Form Example</button>
+                <button id="loadTodoBtn" class="btn success">✅ Load Todo Example</button>
+            </div>
+
+            <!-- Preview iframe -->
+            <div class="iframe-wrapper">
+                <iframe id="previewFrame" title="Live preview"></iframe>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--gray-500); margin-top: 0.2rem;">
+                ⬆️ The result updates when you click <strong>Run code</strong>. Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> inside either editor to run instantly.
+            </p>
+        </div>
+
+        <!-- ============================================================
+             GLOSSARY
+             ============================================================ -->
+        <div class="card" id="glossary">
+            <h2>📖 Beginner's Glossary</h2>
+            <p class="lead">Key terms you'll encounter as you learn frontend development.</p>
+
+            <div class="two-col">
+                <div>
+                    <h3>HTML Terms</h3>
+                    <ul class="styled-list">
+                        <li><strong>Element:</strong> A building block of HTML (e.g., <code>&lt;p&gt;</code>, <code>&lt;div&gt;</code>).</li>
+                        <li><strong>Tag:</strong> The markup that defines an element (<code>&lt;p&gt;</code> and <code>&lt;/p&gt;</code>).</li>
+                        <li><strong>Attribute:</strong> Extra info on an element (e.g., <code>href</code>, <code>src</code>, <code>class</code>).</li>
+                        <li><strong>Semantic HTML:</strong> Using tags that describe meaning (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>).</li>
+                        <li><strong>DOM:</strong> Document Object Model — the tree structure of your HTML.</li>
+                        <li><strong>Accessibility (A11y):</strong> Making websites usable for people with disabilities.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>CSS Terms</h3>
+                    <ul class="styled-list">
+                        <li><strong>Selector:</strong> The part of CSS that targets elements (<code>.class</code>, <code>#id</code>).</li>
+                        <li><strong>Property:</strong> What you're styling (<code>color</code>, <code>margin</code>).</li>
+                        <li><strong>Value:</strong> The setting for a property (<code>red</code>, <code>10px</code>).</li>
+                        <li><strong>Box Model:</strong> Content + padding + border + margin.</li>
+                        <li><strong>Flexbox:</strong> One-dimensional layout system.</li>
+                        <li><strong>Grid:</strong> Two-dimensional layout system.</li>
+                        <li><strong>Media Query:</strong> CSS that applies based on screen size.</li>
+                        <li><strong>Specificity:</strong> Rules that determine which CSS wins when there's a conflict.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="two-col mt-2">
+                <div>
+                    <h3>JavaScript Terms</h3>
+                    <ul class="styled-list">
+                        <li><strong>Variable:</strong> A container for storing data (<code>let</code>, <code>const</code>).</li>
+                        <li><strong>Function:</strong> A reusable block of code.</li>
+                        <li><strong>Array:</strong> An ordered list of values.</li>
+                        <li><strong>Object:</strong> A collection of key-value pairs.</li>
+                        <li><strong>Event:</strong> A user action (click, input, submit).</li>
+                        <li><strong>Event Listener:</strong> Code that waits for and responds to an event.</li>
+                        <li><strong>Callback:</strong> A function passed as an argument to another function.</li>
+                        <li><strong>Regex:</strong> Regular expression — a pattern for matching text.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>General Web Terms</h3>
+                    <ul class="styled-list">
+                        <li><strong>Browser:</strong> Software that displays web pages (Chrome, Firefox, Safari).</li>
+                        <li><strong>Server:</strong> A computer that hosts websites and sends them to browsers.</li>
+                        <li><strong>URL:</strong> Web address (https://example.com).</li>
+                        <li><strong>HTTP/HTTPS:</strong> Protocol for transferring web data.</li>
+                        <li><strong>API:</strong> Application Programming Interface — how programs communicate.</li>
+                        <li><strong>JSON:</strong> JavaScript Object Notation — a data format.</li>
+                        <li><strong>Responsive:</strong> Design that adapts to different screen sizes.</li>
+                        <li><strong>Framework:</strong> Pre-built code to speed up development (React, Vue).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             FINAL / CONGRATULATIONS
+             ============================================================ -->
+        <div class="card" style="text-align:center; background: linear-gradient(135deg, #eff6ff, #f5f3ff); border: 2px solid var(--primary-light);">
+            <h2 style="border-left: none; text-align: center; padding-left: 0;">🎉 Congratulations — You've Completed the 5-Hour Bootcamp!</h2>
+            <p style="max-width: 700px; margin: 1rem auto; font-size: 1.1rem;">
+                You now have a solid foundation in HTML, CSS, and JavaScript. You understand how they work together 
+                to create interactive, responsive websites. But this is just the beginning — the real learning happens 
+                when you build things on your own.
+            </p>
+            <div class="inline-demo" style="justify-content: center;">
+                <span class="badge">📄 HTML5</span>
+                <span class="badge green">🎨 CSS3</span>
+                <span class="badge purple">⚡ JavaScript</span>
+                <span class="badge amber">✅ Validation</span>
+                <span class="badge red">🏗️ Projects</span>
+            </div>
+            <div style="margin-top: 2rem; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto;">
+                <h3>🚀 Your Next Steps</h3>
+                <ol class="styled-list">
+                    <li><strong>Build, build, build.</strong> Recreate websites you admire. Start with simple ones, then more complex.</li>
+                    <li><strong>Learn Git &amp; GitHub.</strong> Version control is essential for every developer.</li>
+                    <li><strong>Explore a framework.</strong> React, Vue, or Angular — pick one and go deep.</li>
+                    <li><strong>Learn the backend.</strong> Node.js, Python, or PHP — understand the full stack.</li>
+                    <li><strong>Join the community.</strong> Follow developers on Twitter, join Discord servers, contribute to open source.</li>
+                    <li><strong>Keep practicing.</strong> Consistency beats intensity. Code a little every day.</li>
+                </ol>
+            </div>
+            <p style="margin-top: 1.5rem; color: var(--gray-500); font-style: italic;">
+                "The expert in anything was once a beginner." — Helen Hayes
+            </p>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         JAVASCRIPT FOR ALL DEMOS & PLAYGROUND
+         ============================================================ -->
+    <script>
+        // ============================================================
+        // PROGRESS BAR
+        // ============================================================
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            document.getElementById('progressFill').style.width = progress + '%';
+        });
+
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show ' + (type === 'error' ? 'error' : type === 'info' ? 'info' : '');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================================
+        // ACCORDION FUNCTIONALITY (for FAQ if used)
+        // ============================================================
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+
+        // ============================================================
+        // MAIN PLAYGROUND
+        // ============================================================
+        (function initPlayground() {
+            const htmlEditor = document.getElementById('htmlEditor');
+            const cssEditor = document.getElementById('cssEditor');
+            const jsEditor = document.getElementById('jsEditor');
+            const previewFrame = document.getElementById('previewFrame');
+            const runBtn = document.getElementById('runBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const loadFormBtn = document.getElementById('loadFormBtn');
+            const loadTodoBtn = document.getElementById('loadTodoBtn');
+
+            if (!htmlEditor) return;
+
+            // ===== DEFAULT CONTENT =====
+            const defaultHTML = `<!-- Write your HTML here -->
+<div class="app">
+  <h1>My Frontend App</h1>
+  <p>Edit the HTML, CSS, and JavaScript!</p>
+  <button id="demoBtn">Click me</button>
+  <p id="output"></p>
+</div>`;
+
+            const defaultCSS = `/* Write your CSS here */
+body {
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.app {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+h1 {
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+#output {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #10b981;
+}`;
+
+            const defaultJS = `// Write your JavaScript here
+const btn = document.getElementById('demoBtn');
+const output = document.getElementById('output');
+let count = 0;
+
+btn.addEventListener('click', () => {
+  count++;
+  output.textContent = \`Clicked \${count} time\${count !== 1 ? 's' : ''}! 🎉\`;
+  
+  if (count === 5) {
+    output.textContent = 'Wow, 5 clicks! You\\'re on fire! 🔥';
+  }
+});`;
+
+            // ===== FORM EXAMPLE =====
+            const formExampleHTML = `<!-- Form Validation Example -->
+<h2 style="text-align:center; color:#2563eb;">Registration Form</h2>
+<form id="signupForm" style="max-width:400px; margin:0 auto;" novalidate>
+  <div class="form-group">
+    <label for="username">Username *</label>
+    <input type="text" id="username" placeholder="Enter username" required>
+    <div class="error-message">Username is required</div>
+  </div>
+  <div class="form-group">
+    <label for="email">Email *</label>
+    <input type="email" id="email" placeholder="you@example.com" required>
+    <div class="error-message">Valid email required</div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password *</label>
+    <input type="password" id="password" placeholder="Min 8 characters" required>
+    <div class="error-message">Password is required</div>
+  </div>
+  <div class="form-group">
+    <label for="confirmPassword">Confirm Password *</label>
+    <input type="password" id="confirmPassword" placeholder="Repeat password" required>
+    <div class="error-message">Passwords must match</div>
+  </div>
+  <button type="submit" class="btn" style="width:100%; padding:0.75rem; background:#2563eb; color:white; border:none; border-radius:10px; font-weight:600; cursor:pointer; font-size:1rem;">Create Account</button>
+</form>`;
+
+            const formExampleCSS = `body {
+  font-family: system-ui, sans-serif;
+  background: #f1f5f9;
+  padding: 2rem 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #334155;
+  margin-bottom: 0.3rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-group input.error {
+  border-color: #ef4444;
+}
+
+.form-group input.success {
+  border-color: #10b981;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: none;
+  font-weight: 500;
+}
+
+.error-message.show {
+  display: block;
+}`;
+
+            const formExampleJS = `// Form validation
+const form = document.getElementById('signupForm');
+const username = document.getElementById('username');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const confirmPassword = document.getElementById('confirmPassword');
+
+function showError(input, message) {
+  const group = input.closest('.form-group');
+  const error = group.querySelector('.error-message');
+  input.classList.add('error');
+  input.classList.remove('success');
+  error.textContent = message;
+  error.classList.add('show');
+}
+
+function showSuccess(input) {
+  const group = input.closest('.form-group');
+  const error = group.querySelector('.error-message');
+  input.classList.remove('error');
+  input.classList.add('success');
+  error.classList.remove('show');
+}
+
+function validateUsername() {
+  const val = username.value.trim();
+  if (!val) { showError(username, 'Username is required'); return false; }
+  if (val.length < 3) { showError(username, 'Min 3 characters'); return false; }
+  showSuccess(username); return true;
+}
+
+function validateEmail() {
+  const val = email.value.trim();
+  if (!val) { showError(email, 'Email is required'); return false; }
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(val)) { showError(email, 'Invalid email format'); return false; }
+  showSuccess(email); return true;
+}
+
+function validatePassword() {
+  const val = password.value;
+  if (!val) { showError(password, 'Password is required'); return false; }
+  if (val.length < 8) { showError(password, 'Min 8 characters'); return false; }
+  showSuccess(password); return true;
+}
+
+function validateConfirm() {
+  const val = confirmPassword.value;
+  if (!val) { showError(confirmPassword, 'Please confirm password'); return false; }
+  if (val !== password.value) { showError(confirmPassword, 'Passwords do not match'); return false; }
+  showSuccess(confirmPassword); return true;
+}
+
+[username, email, password, confirmPassword].forEach(input => {
+  input.addEventListener('blur', () => {
+    if (input === username) validateUsername();
+    if (input === email) validateEmail();
+    if (input === password) validatePassword();
+    if (input === confirmPassword) validateConfirm();
+  });
+  input.addEventListener('input', () => {
+    input.classList.remove('error', 'success');
+    input.closest('.form-group').querySelector('.error-message').classList.remove('show');
+  });
+});
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const valid = validateUsername() && validateEmail() && validatePassword() && validateConfirm();
+  if (valid) {
+    alert('✅ Form submitted successfully!');
+    form.reset();
+    [username, email, password, confirmPassword].forEach(input => {
+      input.classList.remove('error', 'success');
+    });
+  }
+});`;
+
+            // ===== TODO EXAMPLE =====
+            const todoExampleHTML = `<!-- Todo App -->
+<div class="todo-app">
+  <h2>📋 Todo App</h2>
+  <div class="todo-input-group">
+    <input type="text" id="playgroundTodoInput" placeholder="Add a task...">
+    <button id="playgroundAddTodo">+</button>
+  </div>
+  <ul id="playgroundTodoList"></ul>
+  <div class="todo-stats">
+    <span id="playgroundTodoCount">0 items</span>
+    <button id="playgroundClearCompleted">Clear completed</button>
+  </div>
+</div>`;
+
+            const todoExampleCSS = `body {
+  font-family: system-ui, sans-serif;
+  background: #f1f5f9;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.todo-app {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  max-width: 450px;
+  width: 100%;
+}
+
+h2 {
+  color: #2563eb;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.todo-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.todo-input-group input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.todo-input-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.todo-input-group button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0 1.2rem;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.todo-input-group button:hover {
+  background: #1d4ed8;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.8rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 0.4rem;
+  border: 1px solid #e2e8f0;
+}
+
+li.completed span {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+li input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+li span {
+  flex: 1;
+  font-weight: 500;
+}
+
+li .del {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+li .del:hover {
+  background: #fee2e2;
+}
+
+.todo-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.todo-stats button {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.todo-stats button:hover {
+  background: #e2e8f0;
+}`;
+
+            const todoExampleJS = `let todos = [];
+let filter = 'all';
+
+const input = document.getElementById('playgroundTodoInput');
+const addBtn = document.getElementById('playgroundAddTodo');
+const list = document.getElementById('playgroundTodoList');
+const count = document.getElementById('playgroundTodoCount');
+const clearBtn = document.getElementById('playgroundClearCompleted');
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function render() {
+  let filtered = todos;
+  if (filter === 'active') filtered = todos.filter(t => !t.completed);
+  if (filter === 'completed') filtered = todos.filter(t => t.completed);
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<li style="justify-content:center; color:#94a3b8; border:none; background:none;">No tasks 🎉</li>';
+  } else {
+    list.innerHTML = filtered.map(todo => \`
+      <li class="\${todo.completed ? 'completed' : ''}" data-id="\${todo.id}">
+        <input type="checkbox" \${todo.completed ? 'checked' : ''}>
+        <span>\${escapeHtml(todo.text)}</span>
+        <button class="del">×</button>
+      </li>
+    \`).join('');
+  }
+
+  const active = todos.filter(t => !t.completed).length;
+  count.textContent = \`\${active} item\${active !== 1 ? 's' : ''} left\`;
+}
+
+function addTodo() {
+  const text = input.value.trim();
+  if (!text) return;
+  todos.push({ id: Date.now(), text, completed: false });
+  input.value = '';
+  render();
+}
+
+addBtn.addEventListener('click', addTodo);
+input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addTodo(); });
+
+list.addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li || !li.dataset.id) return;
+  const id = Number(li.dataset.id);
+
+  if (e.target.matches('input[type="checkbox"]')) {
+    const todo = todos.find(t => t.id === id);
+    if (todo) { todo.completed = e.target.checked; render(); }
+  }
+
+  if (e.target.matches('.del')) {
+    todos = todos.filter(t => t.id !== id);
+    render();
+  }
+});
+
+clearBtn.addEventListener('click', () => {
+  todos = todos.filter(t => !t.completed);
+  render();
+});
+
+render();`;
+
+            // ===== UPDATE PREVIEW =====
+            function updatePreview() {
+                const html = htmlEditor.value;
+                const css = cssEditor.value;
+                const js = jsEditor.value;
+
+                const fullDoc = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 1rem; font-family: system-ui, 'Segoe UI', Roboto, sans-serif; min-height: 90vh; }
+        ${css}
+    </style>
+</head>
+<body>
+    ${html}
+    <script>
+        try {
+            ${js}
+        } catch (e) {
+            document.body.innerHTML += '<div style="color:red; padding:1rem; background:#fef2f2; border-radius:8px; margin-top:1rem;">⚠️ JavaScript Error: ' + e.message + '</div>';
+        }
+    <\/script>
+</body>
+</html>`;
+
+                const iframeDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
+                iframeDoc.open();
+                iframeDoc.write(fullDoc);
+                iframeDoc.close();
+            }
+
+            function runCode() {
+                updatePreview();
+                runBtn.textContent = '✓ Updated!';
+                setTimeout(() => { runBtn.textContent = '▶ Run code'; }, 400);
+            }
+
+            function resetToDefault() {
+                htmlEditor.value = defaultHTML;
+                cssEditor.value = defaultCSS;
+                jsEditor.value = defaultJS;
+                updatePreview();
+                showToast('Reset to default code', 'info');
+            }
+
+            function clearAll() {
+                htmlEditor.value = '';
+                cssEditor.value = '';
+                jsEditor.value = '';
+                updatePreview();
+                showToast('Editors cleared', 'info');
+            }
+
+            function loadFormExample() {
+                htmlEditor.value = formExampleHTML;
+                cssEditor.value = formExampleCSS;
+                jsEditor.value = formExampleJS;
+                updatePreview();
+                showToast('Form example loaded! 📝', 'info');
+            }
+
+            function loadTodoExample() {
+                htmlEditor.value = todoExampleHTML;
+                cssEditor.value = todoExampleCSS;
+                jsEditor.value = todoExampleJS;
+                updatePreview();
+                showToast('Todo example loaded! ✅', 'info');
+            }
+
+            runBtn.addEventListener('click', runCode);
+            resetBtn.addEventListener('click', resetToDefault);
+            clearBtn.addEventListener('click', clearAll);
+            loadFormBtn.addEventListener('click', loadFormExample);
+            loadTodoBtn.addEventListener('click', loadTodoExample);
+
+            function handleKeyDown(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    runCode();
+                }
+            }
+            htmlEditor.addEventListener('keydown', handleKeyDown);
+            cssEditor.addEventListener('keydown', handleKeyDown);
+            jsEditor.addEventListener('keydown', handleKeyDown);
+
+            // Initial preview
+            updatePreview();
+        })();
+    </script>
+</body>
+</html>
